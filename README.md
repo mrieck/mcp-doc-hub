@@ -1,5 +1,8 @@
 # MCP Doc Hub - Up-to-date Technical Docs For Any Prompt
 
+**COMING SOON**
+
+<!--
 **Website:** [MCPDocHub.com](https://www.mcpdochub.com) 
 
 ### Stop Wasting Time with Outdated or Generic LLM Knowledge!
@@ -34,14 +37,6 @@ MCP Doc Hub connects your AI agent to a powerful backend that pulls up-to-date, 
 *   An MCP Client (e.g., Cursor, Windsurf, Claude Desktop, VS Code with MCP extension, Zed)
 *   An **MCP Doc Hub API Key** and **Server URL** (obtain these from your dashboard at [MCPDocHub.com](https://www.mcpdochub.com))
 
-<!--
-### Installing via Smithery
-To install MCP Doc Hub Server for Claude Desktop automatically via Smithery:
-```bash
-npx -y @smithery/cli install @productivmark/mcp-doc-hub --client claude
-```
-You will likely need to configure environment variables as shown in other client examples.
--->
 ### Install in Cursor
 
 Go to: Settings -> Cursor Settings -> MCP -> Add new global MCP server
@@ -189,3 +184,4 @@ Fetches and processes documentation directly from a specific user-provided URL. 
 
 *   **Parameters:**
     *   `url` (string, required): The exact URL of the documentation page to retrieve (e.g., "https://react.dev/reference/react/useEffect", "https://docs.djangoproject.com/en/stable/topics/db/queries/").
+-->
