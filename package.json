@@ -1,0 +1,50 @@
+{
+  "name": "@productivemark/mcp-doc-hub",
+  "version": "1.0.2",
+  "description": "MCP Doc Hub offers free MCP Servers for technical documentation - pin documents, review requests, and enable multiple fallback methods to ensure your agent gets the right technical documentation to do any task. MCPDocHub.com",
+  "author": "Mark Rieck",
+  "homepage": "https://www.mcpdochub.com",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "bin": {
+    "mcp-doc-hub": "dist/index.js"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch src --ext ts --exec ts-node src/index.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "documentation",
+    "docs",
+    "typescript"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.0",
+    "dotenv": "^16.5.0",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "nodemon": "^3.0.0",
+    "rimraf": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ]
+}
