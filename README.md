@@ -49,7 +49,7 @@ Pasting the following configuration into your Cursor `~/.cursor/mcp.json` file i
   "mcpServers": {
     "mcp-doc-hub": {
       "command": "npx",
-      "args": ["-y", "@productivmark/mcp-doc-hub@latest"],
+      "args": ["-y", "@productivemark/mcp-doc-hub@latest"],
       "env": {
         "SERVER_URL": "YOUR_SERVER_URL",
         "MCPDOCHUB_API_KEY": "YOUR_API_KEY"
@@ -69,7 +69,7 @@ Add this to your Windsurf MCP config file. See Windsurf MCP docs for more info.
   "mcpServers": {
     "mcp-doc-hub": {
       "command": "npx",
-      "args": ["-y", "@productivmark/mcp-doc-hub@latest"],
+      "args": ["-y", "@productivemark/mcp-doc-hub@latest"],
       "env": {
         "SERVER_URL": "YOUR_SERVER_URL",
         "MCPDOCHUB_API_KEY": "YOUR_API_KEY"
@@ -90,7 +90,7 @@ It can be installed via Zed Extensions or you can add this to your Zed `settings
     "MCPDocHub": {
       "command": {
         "path": "npx",
-        "args": ["-y", "@productivmark/mcp-doc-hub@latest"],
+        "args": ["-y", "@productivemark/mcp-doc-hub@latest"],
         "env": {
           "SERVER_URL": "YOUR_SERVER_URL",
           "MCPDOCHUB_API_KEY": "YOUR_API_KEY"
@@ -108,7 +108,7 @@ Run this command. See Claude Code MCP docs for more info.
 **Replace `YOUR_SERVER_URL` and `YOUR_API_KEY` with the values from your MCPDocHub.com dashboard.**
 
 ```bash
-env SERVER_URL="YOUR_SERVER_URL" MCPDOCHUB_API_KEY="YOUR_API_KEY" claude mcp add mcp-doc-hub -- npx -y @productivmark/mcp-doc-hub@latest
+env SERVER_URL="YOUR_SERVER_URL" MCPDOCHUB_API_KEY="YOUR_API_KEY" claude mcp add mcp-doc-hub -- npx -y @productivemark/mcp-doc-hub@latest
 ```
 Or, if `claude mcp add` supports environment variable configuration directly, it might look like the other JSON examples. Refer to Claude Code's specific MCP documentation.
 
@@ -122,7 +122,7 @@ Add this to your Claude Desktop `claude_desktop_config.json` file. See Claude De
   "mcpServers": {
     "MCPDocHub": {
       "command": "npx",
-      "args": ["-y", "@productivmark/mcp-doc-hub@latest"],
+      "args": ["-y", "@productivemark/mcp-doc-hub@latest"],
       "env": {
         "SERVER_URL": "YOUR_SERVER_URL",
         "MCPDOCHUB_API_KEY": "YOUR_API_KEY"
@@ -143,7 +143,7 @@ The configuration on Windows is slightly different. Here's an example, assuming 
       "command": "cmd",
       "args": [
         "/c",
-        "set SERVER_URL=YOUR_SERVER_URL && set MCPDOCHUB_API_KEY=YOUR_API_KEY && npx -y @productivmark/mcp-doc-hub@latest"
+        "set SERVER_URL=YOUR_SERVER_URL && set MCPDOCHUB_API_KEY=YOUR_API_KEY && npx -y @productivemark/mcp-doc-hub@latest"
       ],
       "disabled": false,
       "autoApprove": []
@@ -159,7 +159,7 @@ You can also run the MCP Doc Hub relay directly from your terminal using `npx`, 
 
 For Linux/macOS:
 ```bash
-env SERVER_URL="YOUR_SERVER_URL" MCPDOCHUB_API_KEY="YOUR_API_KEY" LOG_LEVEL="debug" npx -y @productivmark/mcp-doc-hub@latest
+env SERVER_URL="YOUR_SERVER_URL" MCPDOCHUB_API_KEY="YOUR_API_KEY" LOG_LEVEL="debug" npx -y @productivemark/mcp-doc-hub@latest
 ```
 
 ## Environment Variables
