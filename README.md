@@ -1,8 +1,7 @@
 # MCP Doc Hub - Up-to-date Technical Docs For Any Prompt
 
-**COMING SOON**
+**STILL IN BETA TESTING**
 
-<!--
 **Website:** [MCPDocHub.com](https://www.mcpdochub.com) 
 
 ### Stop Wasting Time with Outdated or Generic LLM Knowledge!
@@ -184,4 +183,3 @@ Fetches and processes documentation directly from a specific user-provided URL. 
 
 *   **Parameters:**
     *   `url` (string, required): The exact URL of the documentation page to retrieve (e.g., "https://react.dev/reference/react/useEffect", "https://docs.djangoproject.com/en/stable/topics/db/queries/").
--->
