@@ -1,6 +1,6 @@
 {
   "name": "@productivemark/mcp-doc-hub",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "MCP Doc Hub offers free MCP Servers for technical documentation - pin documents, review requests, and enable multiple fallback methods to ensure your agent gets the right technical documentation to do any task. MCPDocHub.com",
   "author": "Mark Rieck",
   "homepage": "https://www.mcpdochub.com",
