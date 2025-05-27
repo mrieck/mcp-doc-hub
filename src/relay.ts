@@ -1,4 +1,4 @@
-// src/relay.ts  – Streamable HTTP edition
+// src/relay.ts  – Streamable HTTP edition
 import {
   McpServer,
 } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -15,7 +15,7 @@ import { z } from 'zod';
 import {
   ErrorCode,
   JSONRPCRequest,
-  JSONRPCNotification,
+  // JSONRPCNotification   <-- not needed any more
   ClientCapabilities,
   Implementation,
   ServerCapabilities,
@@ -47,7 +47,7 @@ class RelayRpcError extends Error {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Main entry – proxy stdio <‑‑> Streamable HTTP upstream            */
+/*  Main entry – proxy stdio <‑‑> Streamable HTTP upstream            */
 /* ------------------------------------------------------------------ */
 export async function runRelay() {
   try {
@@ -69,7 +69,7 @@ export async function runRelay() {
     const remoteTransport = new StreamableHTTPClientTransport(
       remoteUrl,
       httpOpts,
-    ); /* Spec v2025‑03‑26 :contentReference[oaicite:0]{index=0} */
+    );
 
     /* -------- Wrap with high‑level MCP client ---------------------- */
     const clientCaps: ClientCapabilities = {};
@@ -86,7 +86,7 @@ export async function runRelay() {
       logger.info(
         `Connecting upstream: ${remoteUrl.href} (Streamable HTTP)…`,
       );
-      await remoteClient.connect(remoteTransport); /* connects via POST then keeps GET event stream open :contentReference[oaicite:1]{index=1} */
+      await remoteClient.connect(remoteTransport); // POST + keep‑alive GET
 
       remoteInfo = remoteClient.getServerVersion();
       remoteCaps = remoteClient.getServerCapabilities();
@@ -140,13 +140,47 @@ export async function runRelay() {
       /* ---------- Forward requests -------------------------------- */
       if (m && typeof m.method === 'string' && m.id !== undefined) {
         const req = m as JSONRPCRequest;
+
+        // 1️⃣ MINIMAL FIX – intercept stdio 'initialize'
+        if (req.method === 'initialize') {
+/*
+          await stdioTransport.send({
+            jsonrpc: '2.0',
+            id: req.id,
+            result: {
+              server: remoteInfo,
+              capabilities: remoteCaps,
+              instructions: remoteInstructions ?? undefined,
+            },
+          });
+
+          // emit notifications/initialized upstream so it can start sending deltas
+          await (remoteClient as any).notification({
+            jsonrpc: '2.0',
+            method: 'notifications/initialized',
+          });
+*/
+            await stdioTransport.send({
+              jsonrpc: '2.0',
+              id: req.id,
+              result: {
+                // ① spec‑required top‑level fields
+                protocolVersion: '2025-03-26',          // or remoteClient.getProtocolVersion?.()
+                capabilities: remoteCaps,
+                serverInfo: remoteInfo,                 // NOT “server”
+                instructions: remoteInstructions ?? undefined
+              }
+            });
+          return; // do NOT forward duplicate initialize upstream
+        }
+
         logger.debug(`[RELAY IN] ${req.method} (id: ${req.id})`);
 
         try {
-          /* 1) call upstream – Streamable HTTP returns only result */
+          /* 2) call upstream – Streamable HTTP returns only result */
           const result = await remoteClient.request(req, z.any());
 
-          /* 2) send back wrapped JSON‑RPC response */
+          /* 3) send back wrapped JSON‑RPC response */
           await stdioTransport.send({
             jsonrpc: '2.0',
             id: req.id,
@@ -182,27 +216,18 @@ export async function runRelay() {
     };
 
     /* -------- Upstream → downstream notifications  ----------------- */
-    if ((remoteTransport as any).on) {
-      (remoteTransport as any).on('message', (msg: any) => {
-        if (msg && typeof msg.method === 'string' && msg.id === undefined) {
-          stdioTransport.send(msg).catch((e: Error) =>
-            logger.error('Failed to forward upstream notification', e),
-          );
-        }
-      });
-      (remoteTransport as any).on('error', (e: Error) => {
-        logger.error('Upstream transport error', e);
-        stdioTransport.close().catch(() => {});
-      });
-      (remoteTransport as any).on('close', () => {
-        logger.info('Upstream transport closed');
-        stdioTransport.close().catch(() => {});
-      });
-    } else {
-      logger.warn(
-        'remoteTransport is not an event emitter – cannot forward notifications',
+/*
+    (remoteClient as any).on?.('notification', (msg: any) => {
+      stdioTransport.send(msg).catch((e: Error) =>
+        logger.error('Failed to forward upstream notification', e),
       );
-    }
+    });
+*/
+    (remoteClient as any).on?.('notification', (msg: any) => {
+      stdioTransport.send(msg).catch(e =>
+        logger.error('Failed to forward upstream notification', e));
+    });
+
 
     stdioTransport.onclose = async () => {
       logger.info('Downstream stdio closed – shutting upstream connection');
